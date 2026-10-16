@@ -193,10 +193,10 @@ export default function CyberBot({ theme, isTyping = false, isSuccess = false }:
   return (
     <div
       ref={containerRef}
-      className="relative mx-auto flex h-[310px] w-[310px] items-center justify-center select-none sm:h-[360px] sm:w-[360px] md:h-[400px] md:w-[400px]"
+      className="relative mx-auto flex aspect-square w-full max-w-[340px] items-center justify-center select-none md:max-w-[360px] xl:max-w-[400px]"
     >
       {/* Floating Status Badge */}
-      <div className="pointer-events-none absolute -top-5 z-20 flex items-center gap-2 rounded-full border border-black/10 bg-white/90 px-4 py-1.5 shadow-lg backdrop-blur-md transition-all duration-300">
+      <div className="pointer-events-none absolute -top-3 z-20 flex max-w-full items-center gap-2 rounded-full border border-black/10 bg-white/90 px-3 py-1.5 shadow-lg backdrop-blur-md transition-all duration-300 sm:-top-5 sm:px-4">
         <span className="relative flex h-2 w-2">
           <span
             className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
@@ -207,7 +207,7 @@ export default function CyberBot({ theme, isTyping = false, isSuccess = false }:
             style={{ backgroundColor: theme.accent }}
           />
         </span>
-        <span className="font-display text-[11px] font-semibold tracking-wider text-ink uppercase">
+        <span className="font-display text-[10px] font-semibold tracking-wider text-ink uppercase sm:text-[11px]">
           {statusText}
         </span>
       </div>

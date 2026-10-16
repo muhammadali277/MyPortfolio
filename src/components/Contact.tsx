@@ -41,7 +41,7 @@ export default function Contact({ theme }: Props) {
     <section
       ref={root}
       id="contact"
-      className="relative pt-16 transition-colors duration-700 md:pt-24"
+      className="relative overflow-hidden pt-16 transition-colors duration-700 md:pt-24"
       style={{ backgroundColor: theme.bg }}
     >
       {/* Curved Hill Top matching Poppr signature shape */}
@@ -51,19 +51,19 @@ export default function Contact({ theme }: Props) {
       />
 
       <div
-        className="relative min-h-[85svh] px-6 pt-6 pb-8 transition-colors duration-700 md:px-12 md:pt-4 md:pb-10 lg:px-16"
+        className="relative min-h-[85svh] px-5 pt-8 pb-8 transition-colors duration-700 sm:px-8 md:px-12 md:pt-8 md:pb-10 lg:px-16"
         style={{
           backgroundColor: theme.hill,
           color: theme.hillText,
         }}
       >
-        <div className="grid items-center gap-10 lg:grid-cols-3 lg:gap-6 xl:gap-8">
+        <div className="grid items-center gap-10 md:grid-cols-2 md:gap-x-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-6 xl:gap-8">
           {/* Left Column: Newsletter & Let's talk */}
-          <div className="contact-col order-2 lg:order-1">
+          <div className="contact-col order-2 min-w-0 md:order-1 lg:order-1">
             <p className="mb-3 text-[11px] font-semibold tracking-[0.32em] uppercase opacity-75">
               Stay up to date
             </p>
-            <h2 className="font-display text-[9vw] sm:text-[7vw] md:text-[4.5vw] lg:text-[3.5vw] leading-[0.86] font-extrabold tracking-[-0.035em]">
+            <h2 className="font-display text-[clamp(2.7rem,10vw,5rem)] leading-[0.9] font-extrabold tracking-[-0.035em] md:text-[5.8vw] lg:text-[3.5vw]">
               let’s
               <br />
               talk
@@ -77,7 +77,7 @@ export default function Contact({ theme }: Props) {
                 </div>
               ) : (
                 <div className="flex items-end gap-3">
-                  <label className="flex-1">
+                  <label className="min-w-0 flex-1">
                     <span className="sr-only">Your email</span>
                     <input
                       className="ghost w-full py-2 font-display text-lg placeholder:font-normal md:text-xl"
@@ -111,18 +111,18 @@ export default function Contact({ theme }: Props) {
           </div>
 
           {/* Center Column: Interactive AI Cyber Bot */}
-          <div className="contact-col order-1 lg:order-2">
+          <div className="contact-col order-1 min-w-0 md:order-2">
             <CyberBot theme={theme} isTyping={isTyping} isSuccess={sent} />
           </div>
 
           {/* Right Column: Contact Details */}
-          <div className="contact-col order-3 lg:order-3 lg:pl-4">
+          <div className="contact-col order-3 min-w-0 md:col-span-2 lg:col-span-1 lg:pl-4">
             <p className="mb-3 text-[11px] font-semibold tracking-[0.32em] uppercase opacity-75">
               Get in touch
             </p>
             <a
               href="mailto:muhammadbintariq277@gmail.com"
-              className="group relative block font-display text-[5.5vw] sm:text-[4vw] md:text-[2.3vw] lg:text-[1.7vw] leading-[1.1] font-semibold tracking-[-0.025em]"
+              className="group relative block max-w-full break-all font-display text-[clamp(1rem,5.3vw,1.75rem)] leading-[1.2] font-semibold tracking-[-0.025em] md:text-[clamp(1.1rem,2.6vw,1.8rem)] lg:text-[clamp(1rem,1.65vw,1.8rem)]"
             >
               muhammadbintariq277
               <br />
@@ -131,14 +131,14 @@ export default function Contact({ theme }: Props) {
             </a>
             <a
               href="tel:+923113760980"
-              className="mt-2.5 block font-display text-[6vw] sm:text-[4.2vw] md:text-[2.5vw] lg:text-[1.9vw] leading-[1.1] font-semibold tracking-[-0.025em]"
+              className="mt-2.5 block font-display text-[clamp(1.2rem,5.5vw,2rem)] leading-[1.2] font-semibold tracking-[-0.025em] md:text-[2.6vw] lg:text-[clamp(1.05rem,1.8vw,2rem)]"
             >
               +92 311 376 0980
             </a>
             <p className="mt-5 text-sm leading-relaxed opacity-85 md:text-base">
               Karachi, Pakistan
               <br />
-              AI Engineer
+              AI Engineer · JS Bank
             </p>
           </div>
         </div>
@@ -154,30 +154,6 @@ export default function Contact({ theme }: Props) {
             </nav>
 
             <div className="flex items-center gap-4">
-              <a
-                href="https://github.com/muhammadali277"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub Profile"
-                data-cursor
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-black/10 transition-transform hover:scale-110"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                </svg>
-              </a>
-              <a
-                href="https://linkedin.com/in/muhammad-ali-040883283/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn Profile"
-                data-cursor
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-black/10 transition-transform hover:scale-110"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.6a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z" />
-                </svg>
-              </a>
               <a
                 href="mailto:muhammadbintariq277@gmail.com"
                 aria-label="Email Muhammad Ali"
@@ -200,7 +176,7 @@ export default function Contact({ theme }: Props) {
               </a>
             </div>
 
-            <p className="text-right text-[11px] font-medium tracking-[0.22em] uppercase opacity-75">
+            <p className="text-left text-[11px] font-medium tracking-[0.22em] uppercase opacity-75 lg:text-right">
               Karachi · Pakistan
             </p>
           </div>

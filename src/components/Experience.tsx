@@ -90,13 +90,13 @@ export default function Experience({ theme }: Props) {
     <section
       ref={root}
       id="experience"
-      className="relative px-6 py-20 transition-colors duration-700 md:px-12 md:py-28 lg:px-16"
+      className="relative px-5 py-16 transition-colors duration-700 sm:px-8 md:px-12 md:py-24 lg:px-16 lg:py-28"
       style={{ backgroundColor: theme.bg }}
     >
       <div className="exp-head mb-12 flex items-end justify-between md:mb-20">
         <div>
           <p className="text-[11px] tracking-[0.32em] text-white/40 uppercase">Career journey</p>
-          <h2 className="mt-2 font-display text-[7vw] sm:text-[5vw] md:text-[3.2vw] lg:text-[2.6vw] font-bold tracking-tight text-white">
+          <h2 className="mt-2 font-display text-[clamp(2rem,8vw,3rem)] font-bold tracking-tight text-white md:text-[3.2vw] lg:text-[2.6vw]">
             Experience
           </h2>
         </div>
@@ -116,7 +116,7 @@ export default function Experience({ theme }: Props) {
                 onMouseEnter={() => setHoveredExp(exp.id)}
                 onMouseLeave={() => setHoveredExp(null)}
                 onClick={() => setActiveExp(isSelected ? null : exp.id)}
-                className="group relative cursor-pointer overflow-hidden rounded-2xl border p-6 transition-all duration-500 sm:p-8 md:p-9"
+                className="group relative cursor-pointer overflow-hidden rounded-2xl border p-4 transition-all duration-500 sm:p-8 md:p-9"
                 style={{
                   borderColor: isHovered
                     ? `${theme.accent}66`
@@ -131,7 +131,7 @@ export default function Experience({ theme }: Props) {
                 }}
               >
                 {/* Top Row: Number, Company, Role, Period & Expand indicator */}
-                <div className="grid grid-cols-[auto_1fr_auto] items-baseline gap-x-4 sm:gap-x-6 md:grid-cols-[60px_1fr_auto]">
+                <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3 sm:gap-x-6 md:grid-cols-[60px_minmax(0,1fr)_auto]">
                   <span
                     className="font-display text-sm font-semibold transition-colors duration-500"
                     style={{
@@ -142,9 +142,9 @@ export default function Experience({ theme }: Props) {
                   </span>
 
                   <div>
-                    <div className="flex flex-wrap items-baseline gap-3 md:gap-4">
+                    <div className="flex flex-wrap items-baseline gap-2 md:gap-4">
                       <h3
-                        className="font-display text-[6.5vw] sm:text-[4.8vw] md:text-[3vw] lg:text-[2.4vw] leading-[1] font-extrabold tracking-[-0.025em] transition-colors duration-500"
+                        className="font-display text-[clamp(1.35rem,6vw,2.1rem)] leading-[1.1] font-extrabold tracking-[-0.025em] transition-colors duration-500 md:text-[3vw] lg:text-[2.4vw]"
                         style={{
                           color: isHovered ? theme.accent : "white",
                         }}
@@ -162,7 +162,7 @@ export default function Experience({ theme }: Props) {
                       </span>
                     </div>
 
-                    <p className="mt-1 font-display text-base font-semibold text-white/80 sm:text-lg md:text-xl">
+                    <p className="mt-1 font-display text-sm font-semibold text-white/80 sm:text-lg md:text-xl">
                       {exp.role}
                     </p>
                   </div>
@@ -182,7 +182,7 @@ export default function Experience({ theme }: Props) {
 
                     {/* Interactive Animated Expand Indicator */}
                     <div
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 transition-all duration-300 group-hover:border-white/30"
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 transition-all duration-300 group-hover:border-white/30"
                       style={{
                         backgroundColor: isSelected ? `${theme.accent}26` : "rgba(255,255,255,0.04)",
                       }}
@@ -207,7 +207,7 @@ export default function Experience({ theme }: Props) {
                 </div>
 
                 {/* Mobile Period Subtitle */}
-                <div className="mt-2 flex items-center justify-between sm:hidden">
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 sm:hidden">
                   <span
                     className="font-sans text-xs font-medium uppercase"
                     style={{ color: isHovered ? theme.accent : "rgba(255,255,255,0.5)" }}

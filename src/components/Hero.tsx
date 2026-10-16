@@ -6,7 +6,7 @@ import { type Theme } from "../lib/themes";
 
 function SplitWord({ text, className = "" }: { text: string; className?: string }) {
   return (
-    <span className={`inline-flex overflow-hidden ${className}`}>
+    <span className={`hero-word inline-flex w-max overflow-hidden pt-[0.1em] pb-[0.12em] ${className}`}>
       {text.split("").map((ch, i) => (
         <span key={i} className="hero-char inline-block will-change-transform">
           {ch === " " ? "\u00A0" : ch}
@@ -85,6 +85,33 @@ type Props = {
 
 export default function Hero({ ready, theme }: Props) {
   const root = useRef<HTMLElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const heading = nameRef.current;
+    const section = root.current;
+    const word = heading?.querySelector<HTMLElement>(".hero-word");
+    if (!heading || !section || !word) return;
+
+    const fitName = () => {
+      const width = section.clientWidth;
+      const available = heading.clientWidth - 6;
+      const base = width < 640 ? width * 0.11 : width < 768 ? width * 0.095 : width < 1024 ? width * 0.072 : width * 0.062;
+      heading.style.fontSize = `${base}px`;
+
+      // Measure at the desired size, then shrink only if the actual font needs more room.
+      const measured = word.getBoundingClientRect().width;
+      if (measured > available) {
+        heading.style.fontSize = `${base * (available / measured)}px`;
+      }
+    };
+
+    fitName();
+    const observer = new ResizeObserver(fitName);
+    observer.observe(section);
+    document.fonts.ready.then(fitName);
+    return () => observer.disconnect();
+  }, []);
 
   useGSAP(
     () => {
@@ -128,7 +155,7 @@ export default function Hero({ ready, theme }: Props) {
     <section
       ref={root}
       id="top"
-      className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden px-6 pb-16 transition-colors duration-700 md:px-12 md:pb-20 lg:px-16"
+      className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden px-5 pb-10 pt-32 transition-colors duration-700 sm:px-8 sm:pb-14 md:px-12 md:pb-20 lg:px-16"
       style={{
         background: theme.bgWarm,
       }}
@@ -136,7 +163,7 @@ export default function Hero({ ready, theme }: Props) {
       <Glow glowColor={theme.glow} />
       <div className="hero-parallax relative z-10">
         <div className="hero-shift">
-          <p className="hero-kicker mb-6 flex items-center gap-3 text-[11px] font-medium tracking-[0.38em] text-white/50 uppercase md:mb-8">
+          <p className="hero-kicker mb-6 flex items-center gap-3 text-[10px] font-medium tracking-[0.23em] text-white/50 uppercase sm:text-[11px] sm:tracking-[0.38em] md:mb-8">
             <span
               className="status-dot inline-block h-1.5 w-1.5 rounded-full transition-colors duration-500"
               style={{ backgroundColor: theme.accent }}
@@ -144,20 +171,20 @@ export default function Hero({ ready, theme }: Props) {
             AI ENGINEER · FAST-NUCES
           </p>
 
-          <h1 className="font-display leading-[0.85] font-extrabold tracking-[-0.035em] text-white">
-            <span className="block text-[12vw] sm:text-[9.5vw] md:text-[7.2vw] lg:text-[6.2vw]">
+          <h1 ref={nameRef} className="min-w-0 w-full font-display leading-[1.02] font-extrabold tracking-[-0.035em] text-white">
+            <span className="block">
               <SplitWord text="MUHAMMAD" />
             </span>
             <span
-              className="mt-1 block text-[12vw] sm:text-[9.5vw] md:text-[7.2vw] lg:text-[6.2vw] transition-colors duration-500"
+              className="mt-1 block transition-colors duration-500"
               style={{ color: theme.accent }}
             >
               <SplitWord text="ALI" />
             </span>
           </h1>
 
-          <div className="hero-sub mt-8 flex max-w-2xl flex-col gap-4 md:mt-12">
-            <p className="max-w-xl text-base leading-relaxed text-white/60 md:text-lg lg:text-xl">
+          <div className="hero-sub mt-7 flex max-w-2xl flex-col gap-4 md:mt-12">
+            <p className="max-w-xl text-sm leading-relaxed text-white/60 sm:text-base md:text-lg lg:text-xl">
               I craft <WordCycle accentColor={theme.accent} /> — RAG pipelines, LLM apps, and products that actually ship.
             </p>
           </div>
@@ -166,7 +193,7 @@ export default function Hero({ ready, theme }: Props) {
 
       <button
         onClick={() => scrollTo("#experience")}
-        className="hero-scroll group relative z-10 mt-14 flex items-center gap-4 self-start text-[11px] tracking-[0.32em] text-white/50 uppercase"
+        className="hero-scroll group relative z-10 mt-10 flex items-center gap-4 self-start text-[11px] tracking-[0.32em] text-white/50 uppercase md:mt-14"
       >
         <span className="relative flex h-9 w-5 items-start justify-center rounded-full border border-white/20 pt-1.5">
           <span
