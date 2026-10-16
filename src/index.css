@@ -1,0 +1,224 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+:root {
+  --color-accent: #fbbf24;
+  --color-btn: #d97706;
+  --color-bg: #160e08;
+  --color-hill: #f59e0b;
+}
+
+@theme {
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-void: #0c0c0d;
+  --color-lavender: #c084fc;
+  --color-mint: #2de2a8;
+  --color-gold: #c9a86c;
+  --color-ink: #161616;
+  --color-menu: #a855f7;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--color-bg, #0c0c0d);
+  transition: background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: #f4f1ea;
+  overflow-x: hidden;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (hover: none), (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
+
+::selection {
+  background: var(--color-accent, #2de2a8);
+  color: #0c0c0d;
+}
+
+img {
+  max-width: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+button,
+a,
+input {
+  cursor: none;
+}
+
+@media (hover: none), (pointer: coarse) {
+  button,
+  a,
+  input {
+    cursor: auto;
+  }
+}
+
+/* Grain overlay */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.owl-float {
+  animation: owlFloat 4.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes owlFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.2deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(1.4deg);
+  }
+}
+
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.blink-caret {
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.menu-line {
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1),
+    opacity 0.3s ease, width 0.35s ease;
+}
+
+.underline-grow {
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+a:hover .underline-grow,
+.group:hover .underline-grow {
+  transform: scaleX(1);
+}
+
+input.ghost {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(22, 22, 22, 0.45);
+  outline: none;
+  color: #161616;
+  font-family: inherit;
+}
+
+input.ghost::placeholder {
+  color: rgba(22, 22, 22, 0.55);
+}
+
+input.ghost:focus {
+  border-bottom-color: #161616;
+}
+
+.hero-warm {
+  background:
+    radial-gradient(ellipse 70% 55% at 92% -10%, rgba(92, 58, 32, 0.55), transparent 58%),
+    radial-gradient(ellipse 40% 40% at 10% 0%, rgba(40, 30, 20, 0.25), transparent 50%),
+    #0c0c0d;
+}
+
+.hero-char {
+  transform: translateY(120%);
+}
+
+.hero-kicker,
+.hero-sub,
+.hero-scroll {
+  opacity: 0;
+}
+
+.scroll-dot {
+  animation: scrollDot 1.6s ease-in-out infinite;
+}
+
+@keyframes scrollDot {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+.status-dot {
+  animation: pulseDot 1.8s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.55;
+  }
+}
+
+.curve-hill {
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .owl-float,
+  .marquee-track,
+  .blink-caret {
+    animation: none;
+  }
+}
