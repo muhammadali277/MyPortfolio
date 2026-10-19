@@ -8,7 +8,6 @@ import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
 import Experience from "./components/Experience";
 import Work from "./components/Work";
-import Statement from "./components/Statement";
 import Contact from "./components/Contact";
 import { THEMES, type Theme } from "./lib/themes";
 
@@ -65,7 +64,6 @@ export default function App() {
         <Marquee theme={currentTheme} />
         <Experience theme={currentTheme} />
         <Work theme={currentTheme} />
-        <Statement theme={currentTheme} />
         <Contact theme={currentTheme} />
       </main>
     </div>
