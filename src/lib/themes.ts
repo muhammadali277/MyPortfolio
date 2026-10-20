@@ -11,6 +11,18 @@ export type Theme = {
 };
 
 export const THEMES: Theme[] = [
+    {
+    id: "cosmic-sapphire",
+    name: "Cosmic Sapphire",
+    bg: "#050e1d",
+    bgWarm:
+      "radial-gradient(ellipse 70% 55% at 92% -10%, rgba(59, 130, 246, 0.45), transparent 58%), radial-gradient(ellipse 40% 40% at 10% 0%, rgba(147, 51, 234, 0.2), transparent 50%), #050e1d",
+    accent: "#38bdf8",
+    hill: "#3b82f6",
+    hillText: "#ffffff",
+    btn: "#2563eb",
+    glow: "rgba(56, 189, 248, 0.2)",
+  },
   {
     id: "warm-amber",
     name: "Warm Amber",
@@ -58,18 +70,6 @@ export const THEMES: Theme[] = [
     hillText: "#022c22",
     btn: "#059669",
     glow: "rgba(52, 211, 153, 0.2)",
-  },
-  {
-    id: "cosmic-sapphire",
-    name: "Cosmic Sapphire",
-    bg: "#050e1d",
-    bgWarm:
-      "radial-gradient(ellipse 70% 55% at 92% -10%, rgba(59, 130, 246, 0.45), transparent 58%), radial-gradient(ellipse 40% 40% at 10% 0%, rgba(147, 51, 234, 0.2), transparent 50%), #050e1d",
-    accent: "#38bdf8",
-    hill: "#3b82f6",
-    hillText: "#ffffff",
-    btn: "#2563eb",
-    glow: "rgba(56, 189, 248, 0.2)",
   },
   {
     id: "velvet-ruby",
