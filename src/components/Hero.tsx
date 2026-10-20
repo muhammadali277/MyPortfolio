@@ -58,15 +58,26 @@ function Glow({ glowColor }: { glowColor: string }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
     const x = gsap.quickTo(el, "x", { duration: 1.2, ease: "power3.out" });
     const y = gsap.quickTo(el, "y", { duration: 1.2, ease: "power3.out" });
-    const move = (e: MouseEvent) => {
-      x(e.clientX - 200);
-      y(e.clientY - 200);
+    const track = (clientX: number, clientY: number) => {
+      x(clientX - 200);
+      y(clientY - 200);
     };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
+    const move = (e: PointerEvent) => track(e.clientX, e.clientY);
+    const touchMove = (e: TouchEvent) => {
+      const finger = e.touches[0];
+      const bounds = el.parentElement?.getBoundingClientRect();
+      if (finger && bounds && bounds.top < window.innerHeight && bounds.bottom > 0) {
+        track(finger.clientX, finger.clientY);
+      }
+    };
+    window.addEventListener("pointermove", move, { passive: true });
+    window.addEventListener("touchmove", touchMove, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("touchmove", touchMove);
+    };
   }, []);
 
   return (
@@ -144,8 +155,19 @@ export default function Hero({ ready, theme }: Props) {
       const canHover = !window.matchMedia("(hover: none), (pointer: coarse)").matches;
       if (shift && canHover) window.addEventListener("mousemove", onMove);
 
+      const onTouchMove = (e: TouchEvent) => {
+        const finger = e.touches[0];
+        if (finger) xTo?.((finger.clientX / window.innerWidth - 0.5) * 14);
+      };
+      const onTouchEnd = () => xTo?.(0);
+      const section = root.current;
+      section?.addEventListener("touchmove", onTouchMove, { passive: true });
+      section?.addEventListener("touchend", onTouchEnd, { passive: true });
+
       return () => {
         if (canHover) window.removeEventListener("mousemove", onMove);
+        section?.removeEventListener("touchmove", onTouchMove);
+        section?.removeEventListener("touchend", onTouchEnd);
       };
     },
     { scope: root, dependencies: [ready] }

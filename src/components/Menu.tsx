@@ -73,6 +73,10 @@ export default function Menu({ open, onClose, currentTheme }: Props) {
           <button
             key={l.href}
             onClick={() => go(l.href)}
+            onPointerDown={(event) => {
+              const label = event.currentTarget.querySelector<HTMLElement>(".menu-label");
+              if (label) label.style.color = currentTheme.accent;
+            }}
             data-cursor
             className="menu-link group relative flex w-fit max-w-full items-baseline gap-2.5 text-left focus-visible:outline-2 focus-visible:outline-offset-4 sm:gap-4"
           >
@@ -83,7 +87,7 @@ export default function Menu({ open, onClose, currentTheme }: Props) {
               0{i + 1}
             </span>
             <span
-              className="font-display text-[clamp(1.9rem,8.2vw,4rem)] leading-[1] font-extrabold tracking-tight text-white uppercase transition-colors duration-300 sm:text-[6.5vw] md:text-[4.8vw] lg:text-[4vw]"
+              className="menu-label font-display text-[clamp(1.9rem,8.2vw,4rem)] leading-[1] font-extrabold tracking-tight text-white uppercase transition-colors duration-300 sm:text-[6.5vw] md:text-[4.8vw] lg:text-[4vw]"
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = currentTheme.accent;
               }}

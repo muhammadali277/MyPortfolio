@@ -31,6 +31,7 @@ type Props = {
 export default function Work({ theme }: Props) {
   const root = useRef<HTMLElement>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useGSAP(
     () => {
@@ -59,13 +60,13 @@ export default function Work({ theme }: Props) {
     <section
       ref={root}
       id="work"
-      className="relative px-6 py-20 transition-colors duration-700 md:px-12 md:py-28 lg:px-16"
+      className="relative px-5 py-16 transition-colors duration-700 sm:px-8 md:px-12 md:py-24 lg:px-16 lg:py-28"
       style={{ backgroundColor: theme.bg }}
     >
       <div className="work-head mb-12 flex items-end justify-between md:mb-20">
         <div>
           <p className="text-[11px] tracking-[0.32em] text-white/40 uppercase">Selected work</p>
-          <h2 className="mt-2 font-display text-[7vw] sm:text-[5vw] md:text-[3.2vw] lg:text-[2.6vw] font-bold tracking-tight text-white">
+          <h2 className="mt-2 font-display text-[clamp(2rem,8vw,3rem)] font-bold tracking-tight text-white md:text-[3.2vw] lg:text-[2.6vw]">
             Projects
           </h2>
         </div>
@@ -74,14 +75,25 @@ export default function Work({ theme }: Props) {
 
       <ul>
         {projects.map((p, idx) => {
-          const isHovered = hoveredIndex === idx;
+          const isHovered = hoveredIndex === idx || selectedIndex === idx;
           return (
             <li key={p.n} className="work-row">
               <article
                 data-cursor
+                role="button"
+                tabIndex={0}
+                aria-pressed={selectedIndex === idx}
+                aria-label={`Highlight ${p.title} project`}
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className="work-link group relative grid grid-cols-[auto_1fr] items-baseline gap-x-6 overflow-hidden border-t border-white/10 py-6 md:grid-cols-[70px_1fr_1fr] md:py-8"
+                onClick={() => setSelectedIndex(selectedIndex === idx ? null : idx)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setSelectedIndex(selectedIndex === idx ? null : idx);
+                  }
+                }}
+                className="work-link group relative grid cursor-pointer grid-cols-[28px_minmax(0,1fr)] items-baseline gap-x-3 overflow-hidden border-t border-white/10 py-6 outline-none transition-colors active:bg-white/5 focus-visible:bg-white/5 sm:gap-x-6 md:grid-cols-[70px_minmax(0,1fr)_minmax(0,1fr)] md:py-8"
               >
                 <span
                   className="font-display text-sm font-semibold transition-colors duration-500"
@@ -92,7 +104,7 @@ export default function Work({ theme }: Props) {
                   {p.n}
                 </span>
                 <h3
-                  className="work-title font-display text-[7.5vw] sm:text-[6vw] md:text-[4vw] lg:text-[3.2vw] leading-[0.95] font-extrabold tracking-[-0.03em] transition-colors duration-500"
+                  className="work-title font-display text-[clamp(1.5rem,7.5vw,2.5rem)] leading-[1] font-extrabold tracking-[-0.03em] transition-colors duration-500 sm:text-[6vw] md:text-[4vw] lg:text-[3.2vw]"
                   style={{
                     color: isHovered ? theme.accent : "white",
                   }}

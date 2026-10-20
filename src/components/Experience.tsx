@@ -113,10 +113,20 @@ export default function Experience({ theme }: Props) {
             <li key={exp.id} className="exp-row">
               <div
                 data-cursor
+                role="button"
+                tabIndex={0}
+                aria-expanded={isSelected}
+                aria-label={`${exp.company}, ${exp.role}. ${isSelected ? "Hide" : "Show"} details`}
                 onMouseEnter={() => setHoveredExp(exp.id)}
                 onMouseLeave={() => setHoveredExp(null)}
                 onClick={() => setActiveExp(isSelected ? null : exp.id)}
-                className="group relative cursor-pointer overflow-hidden rounded-2xl border p-4 transition-all duration-500 sm:p-8 md:p-9"
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActiveExp(isSelected ? null : exp.id);
+                  }
+                }}
+                className="group relative cursor-pointer overflow-hidden rounded-2xl border p-4 outline-none transition-all duration-500 active:scale-[0.99] focus-visible:ring-2 focus-visible:ring-white/40 sm:p-8 md:p-9"
                 style={{
                   borderColor: isHovered
                     ? `${theme.accent}66`

@@ -23,13 +23,10 @@ export default function CyberBot({ theme, isTyping = false, isSuccess = false }:
   const [clickCount, setClickCount] = useState(0);
   const [statusText, setStatusText] = useState("Tracking cursor");
 
-  // Cursor tracking for eyes and 3D head tilt
+  // Track either a cursor or a finger without interfering with page scrolling.
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
-    const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
-    if (isTouch) return;
 
     // Quick setters for high performance smooth eye & head movement
     const headX = gsap.quickTo(headRef.current, "x", { duration: 0.6, ease: "power3.out" });
@@ -46,15 +43,15 @@ export default function CyberBot({ theme, isTyping = false, isSuccess = false }:
     const rightHandX = gsap.quickTo(rightHandRef.current, "x", { duration: 0.7, ease: "power3.out" });
     const rightHandY = gsap.quickTo(rightHandRef.current, "y", { duration: 0.7, ease: "power3.out" });
 
-    const onMouseMove = (e: MouseEvent) => {
+    const trackPosition = (clientX: number, clientY: number) => {
       if (isSuccess) return; // Keep happy victory stance
       
       const rect = container.getBoundingClientRect();
       const botCenterX = rect.left + rect.width / 2;
       const botCenterY = rect.top + rect.height * 0.45;
 
-      const deltaX = e.clientX - botCenterX;
-      const deltaY = e.clientY - botCenterY;
+      const deltaX = clientX - botCenterX;
+      const deltaY = clientY - botCenterY;
       const dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
       const angle = Math.atan2(deltaY, deltaX);
 
@@ -96,8 +93,17 @@ export default function CyberBot({ theme, isTyping = false, isSuccess = false }:
       rightHandY(hy * 0.8 + Math.cos(Date.now() * 0.003) * 6);
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-    return () => window.removeEventListener("mousemove", onMouseMove);
+    const onPointerMove = (e: PointerEvent) => trackPosition(e.clientX, e.clientY);
+    const onTouchMove = (e: TouchEvent) => {
+      const finger = e.touches[0];
+      if (finger) trackPosition(finger.clientX, finger.clientY);
+    };
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("touchmove", onTouchMove);
+    };
   }, [isTyping, isSuccess]);
 
   // Natural Blinking Cycle
@@ -105,7 +111,10 @@ export default function CyberBot({ theme, isTyping = false, isSuccess = false }:
     let blinkTimeout: number;
 
     const doBlink = () => {
-      if (isSuccess || mood === "winking") return;
+      if (isSuccess || mood === "winking") {
+        blinkTimeout = window.setTimeout(doBlink, 1600);
+        return;
+      }
 
       const tl = gsap.timeline();
       tl.to([leftEyelidRef.current, rightEyelidRef.current], {
@@ -145,7 +154,7 @@ export default function CyberBot({ theme, isTyping = false, isSuccess = false }:
         });
       }
     } else {
-      setStatusText("Tracking cursor");
+      setStatusText(window.matchMedia("(hover: none), (pointer: coarse)").matches ? "Touch or drag me" : "Tracking cursor");
       setMood("idle");
     }
   }, [isTyping, isSuccess]);
@@ -221,8 +230,16 @@ export default function CyberBot({ theme, isTyping = false, isSuccess = false }:
       {/* Interactive Vector 3D Cyber Bot */}
       <svg
         viewBox="0 0 340 340"
-        className="relative z-10 h-full w-full cursor-pointer overflow-visible filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.22)]"
+        className="relative z-10 h-full w-full cursor-pointer touch-pan-y overflow-visible filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.22)]"
         onClick={handleBotClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            handleBotClick();
+          }
+        }}
         aria-label="Interactive AI Cyber Bot character that follows cursor"
       >
         <defs>
